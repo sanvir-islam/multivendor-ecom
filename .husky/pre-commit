@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Biome instantly formats and lints only the files you are committing
+pnpm biome check --write --staged --error-on-warnings --no-errors-on-unmatched

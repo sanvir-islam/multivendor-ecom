@@ -1,0 +1,16 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+  - "user-service"
+  - "user-service-e2e"
+allowBuilds:
+  "@parcel/watcher": true
+  "@prisma/engines": true
+  "@scarf/scarf": true
+  "@swc/core": true
+  core-js-pure: true
+  esbuild: true
+  less: true
+  nx: true
+  prisma: true
+  unrs-resolver: true

@@ -1,0 +1,73 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.4.13/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": false,
+		"includes": ["**", "!**/.nx", "!**/generated"]
+	},
+	"formatter": {
+		"enabled": true,
+		"indentStyle": "tab"
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double"
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": "off"
+			}
+		}
+	},
+	"overrides": [
+		{
+			"includes": [
+				"**/*.config.js",
+				"**/*.config.cjs",
+				"**/*.config.mjs",
+				"**/*.config.ts",
+				"**/*.config.cts",
+				"**/*.config.mts",
+				"**/jest.config.cts",
+				"**/webpack.config.js",
+				"**/prisma.config.ts"
+			],
+			"linter": {
+				"rules": {
+					"style": {
+						"useNodejsImportProtocol": "off"
+					},
+					"complexity": {
+						"useLiteralKeys": "off"
+					}
+				}
+			}
+		},
+		{
+			"includes": [
+				".vscode/**",
+				"**/nx.json",
+				"**/project.json",
+				"**/tsconfig*.json",
+				"**/package.json"
+			],
+			"formatter": {
+				"indentStyle": "space",
+				"indentWidth": 2
+			}
+		}
+	]
+}
