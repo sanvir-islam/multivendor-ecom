@@ -12,7 +12,7 @@
         "defaultConfiguration": "production",
         "options": {
           "platform": "node",
-          "outputPath": "apps/auth-service/dist",
+          "outputPath": "dist/apps/auth-service",
           "format": [
             "cjs"
           ],
@@ -49,8 +49,8 @@
         "cache": true,
         "executor": "@nx/js:prune-lockfile",
         "outputs": [
-          "{workspaceRoot}/apps/auth-service/dist/package.json",
-          "{workspaceRoot}/apps/auth-service/dist/package-lock.json"
+          "{workspaceRoot}/dist/apps/auth-service/package.json",
+          "{workspaceRoot}/dist/apps/auth-service/package-lock.json"
         ],
         "options": {
           "buildTarget": "build"
@@ -62,7 +62,7 @@
         ],
         "cache": true,
         "outputs": [
-          "{workspaceRoot}/apps/auth-service/dist/workspace_modules"
+          "{workspaceRoot}/dist/apps/auth-service/workspace_modules"
         ],
         "executor": "@nx/js:copy-workspace-modules",
         "options": {
@@ -109,8 +109,19 @@
       }
     }
   },
+  "scripts": {
+    "test": "dotenv -e .env -e .env.test -- jest",
+    "test:push-db": "dotenv -e .env -e .env.test -- pnpm prisma db push"
+  },
   "dependencies": {
-    "express": "^4.21.2",
-    "@multivendor-ecom/shared": "workspace:*"
+    "@multivendor-ecom/shared": "workspace:*",
+    "bcrypt": "^6.0.0",
+    "jsonwebtoken": "^9.0.3",
+    "node-cron": "^4.2.1"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node-cron": "^3.0.11"
   }
 }

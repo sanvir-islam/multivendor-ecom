@@ -11,12 +11,16 @@
 	},
 	"formatter": {
 		"enabled": true,
-		"indentStyle": "tab"
+		"indentStyle": "tab",
+		"lineWidth": 130
 	},
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"suspicious": {
+				"noConsole": "error"
+			}
 		}
 	},
 	"javascript": {
@@ -57,13 +61,7 @@
 			}
 		},
 		{
-			"includes": [
-				".vscode/**",
-				"**/nx.json",
-				"**/project.json",
-				"**/tsconfig*.json",
-				"**/package.json"
-			],
+			"includes": [".vscode/**", "**/nx.json", "**/project.json", "**/tsconfig*.json", "**/package.json"],
 			"formatter": {
 				"indentStyle": "space",
 				"indentWidth": 2

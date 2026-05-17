@@ -11,8 +11,8 @@
         "cache": true,
         "executor": "@nx/js:prune-lockfile",
         "outputs": [
-          "{workspaceRoot}/apps/api-gateway/dist/package.json",
-          "{workspaceRoot}/apps/api-gateway/dist/package-lock.json"
+          "{workspaceRoot}/dist/apps/api-gateway/package.json",
+          "{workspaceRoot}/dist/apps/api-gateway/package-lock.json"
         ],
         "options": {
           "buildTarget": "build"
@@ -24,7 +24,7 @@
         ],
         "cache": true,
         "outputs": [
-          "{workspaceRoot}/apps/api-gateway/dist/workspace_modules"
+          "{workspaceRoot}/dist/apps/api-gateway/workspace_modules"
         ],
         "executor": "@nx/js:copy-workspace-modules",
         "options": {
@@ -61,6 +61,20 @@
     }
   },
   "dependencies": {
-    "express": "^4.21.2"
+    "@multivendor-ecom/shared": "workspace:*",
+    "compression": "^1.8.1",
+    "cors": "^2.8.6",
+    "express-http-proxy": "^2.1.2",
+    "express-rate-limit": "^8.5.1",
+    "helmet": "^8.1.0",
+    "hpp": "^0.2.3",
+    "jsonwebtoken": "^9.0.3"
+  },
+  "devDependencies": {
+    "@types/compression": "^1.8.1",
+    "@types/cors": "^2.8.19",
+    "@types/express-http-proxy": "^1.6.7",
+    "@types/hpp": "^0.2.7",
+    "@types/jsonwebtoken": "^9.0.10"
   }
 }

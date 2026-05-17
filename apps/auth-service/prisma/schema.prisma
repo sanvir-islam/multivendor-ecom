@@ -1,13 +1,89 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
+// Auth Service Database Schema — PostgreSQL
+// Handles: users, refresh tokens, sessions
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider     = "prisma-client"
+  moduleFormat = "cjs"
+  output       = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model User {
+  id                      String               @id @default(uuid())
+  email                   String               @unique
+  password                String
+  name                    String
+  role                    Role                 @default(USER)
+  tokenVersion            Int                  @default(0)
+  isVerified              Boolean              @default(false)
+  isBlocked               Boolean              @default(false)
+  failedLoginAttempts     Int                  @default(0)
+  lockUntil               DateTime? // null = not locked, future date = locked until then
+  lastVerificationEmailAt DateTime?
+  deletedAt               DateTime? // null = active, timestamp = deactivated
+  isAnonymized            Boolean              @default(false) // for v2 background job
+  createdAt               DateTime             @default(now())
+  updatedAt               DateTime             @updatedAt
+  refreshTokens           RefreshToken[]
+  passwordResetTokens     PasswordResetToken[]
+
+  @@index([email, deletedAt])
+  @@map("users")
+}
+
+model RefreshToken {
+  id           String         @id @default(uuid())
+  token        String         @unique // SHA-256 hash of the opaque token
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  tokenVersion Int
+  userAgent    String?
+  ipAddress    String?
+  expiresAt    DateTime
+  isRevoked    Boolean        @default(false)
+  revokedBy    RevokedReason?
+  createdAt    DateTime       @default(now())
+
+  @@index([token])
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("refresh_tokens")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  token     String   @unique // SHA-256 hash of opaque token
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  isUsed    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([token])
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("password_reset_tokens")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+// Why each token was revoked — critical for theft detection logic
+// ROTATION = replaced during normal refresh (reuse = theft signal)
+// MANUAL   = user revoked from session settings (reuse = harmless, just re-login)
+// LOGOUT   = user clicked logout
+// PASSWORD = user changed password (all tokens invalidated)
+// ADMIN    = admin blocked user or changed role
+enum RevokedReason {
+  ROTATION
+  MANUAL
+  LOGOUT
+  PASSWORD
+  ADMIN
+  EXPIRED
 }

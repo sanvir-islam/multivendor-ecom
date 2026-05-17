@@ -1,10 +1,9 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "rootDir": "../../",
     "outDir": "dist",
-    "types": ["node"],
-    "rootDir": "src",
-    "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo"
+    "types": ["node"]
   },
   "include": ["src/**/*.ts"],
   "exclude": [
@@ -13,7 +12,8 @@
     "jest.config.ts",
     "jest.config.cts",
     "src/**/*.spec.ts",
-    "src/**/*.test.ts"
+    "src/**/*.test.ts",
+    "src/**/__tests__/**"
   ],
   "references": [
     {

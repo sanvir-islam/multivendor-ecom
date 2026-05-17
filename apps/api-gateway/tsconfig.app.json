@@ -3,9 +3,13 @@
   "compilerOptions": {
     "outDir": "dist",
     "types": ["node"],
-    "rootDir": "src",
-    "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo"
+    "rootDir": "../../"
   },
-  "include": ["src/**/*.ts"],
-  "exclude": []
+  "include": ["src/**/*.ts", "../../packages/shared/src/lib/middlewares/require-auth.ts"],
+  "exclude": ["out-tsc", "dist", "jest.config.ts", "jest.config.cts", "src/**/*.spec.ts", "src/**/*.test.ts"],
+  "references": [
+    {
+      "path": "../../packages/shared/tsconfig.lib.json"
+    }
+  ]
 }

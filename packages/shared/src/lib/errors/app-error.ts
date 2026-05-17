@@ -1,56 +1,71 @@
+// 1. The Robust Base Class
 export class AppError extends Error {
 	public readonly statusCode: number;
 	public readonly isOperational: boolean;
 	public readonly details?: unknown;
 
-	constructor(
-		message: string,
-		statusCode: number,
-		isOperational = true,
-		details?: unknown,
-	) {
+	constructor(message: string, statusCode: number, isOperational = true, details?: unknown) {
 		super(message);
 		this.statusCode = statusCode;
 		this.isOperational = isOperational;
 		this.details = details;
+
+		// Restore prototype chain (Fixes 'instanceof' in TypeScript)
+		Object.setPrototypeOf(this, new.target.prototype);
+
+		// Captures clean stack trace, excluding the constructor call itself
+		Error.captureStackTrace(this, this.constructor);
 	}
 }
 
-// not found error
-export class NotFoundError extends AppError {
-	constructor(message = "Resources not found") {
-		super(message, 404);
-	}
-}
-
-// validation error (use for Joi/Jod/react-hook-form validation errors)
-export class ValidationError extends AppError {
-	constructor(message = "Invalid request data", details?: unknown) {
+// 2. Specific Error Subclasses
+export class BadRequestError extends AppError {
+	constructor(message = "Bad Request", details?: unknown) {
 		super(message, 400, true, details);
 	}
 }
 
-// authentication error
-export class AuthError extends AppError {
-	constructor(message = "Unauthorized") {
+export class ValidationError extends AppError {
+	constructor(message = "Validation Error", details?: unknown) {
+		// Perfect for passing Zod, Joi, or class-validator error arrays
+		super(message, 400, true, details);
+	}
+}
+
+export class UnauthorizedError extends AppError {
+	constructor(message = "Authentication required") {
 		super(message, 401);
 	}
 }
-// forbidden error (insufficient permitions)
+
 export class ForbiddenError extends AppError {
-	constructor(message = "Forbidden access") {
+	constructor(message = "Access denied") {
 		super(message, 403);
 	}
 }
-// database error (for mongodb / postgres errors)
-export class DatabaseError extends AppError {
-	constructor(message = "Database error", details?: unknown) {
-		super(message, 500, true, details);
+
+export class NotFoundError extends AppError {
+	constructor(message = "Resource not found") {
+		super(message, 404);
 	}
 }
-// rate limit error (if user extend API limit)
-export class RateLimitError extends AppError {
-	constructor(message = "Too many request please try again later.") {
+
+export class ConflictError extends AppError {
+	constructor(message = "Resource already exists") {
+		super(message, 409);
+	}
+}
+
+export class TooManyRequestsError extends AppError {
+	constructor(message = "Too many requests") {
 		super(message, 429);
+	}
+}
+
+// Note: isOperational is FALSE here.
+// Database connections dropping are usually programming/infrastructure bugs, not operational user errors.
+export class DatabaseError extends AppError {
+	constructor(message = "Database operation failed", details?: unknown) {
+		super(message, 500, false, details);
 	}
 }

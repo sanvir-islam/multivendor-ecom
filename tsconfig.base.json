@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "composite": true,
-    "declarationMap": true,
     "importHelpers": true,
     "isolatedModules": true,
     "lib": ["es2022"],
@@ -14,6 +12,12 @@
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2022"
+    "target": "es2022",
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
+    "paths": {
+      "@multivendor-ecom/shared": ["packages/shared/src/index.ts"],
+      "@multivendor-ecom/shared/*": ["packages/shared/src/*"]
+    }
   }
 }

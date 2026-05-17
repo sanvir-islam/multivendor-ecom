@@ -2,18 +2,8 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./out-tsc/jest",
+    "rootDir": "../../",
     "types": ["jest", "node"]
   },
-  "include": [
-    "jest.config.ts",
-    "jest.config.cts",
-    "src/**/*.test.ts",
-    "src/**/*.spec.ts",
-    "src/**/*.d.ts"
-  ],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    }
-  ]
+  "include": ["jest.config.ts", "jest.config.cts", "src/**/*.ts"]
 }

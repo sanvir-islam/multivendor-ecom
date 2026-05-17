@@ -1,6 +1,22 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "analytics": false,
+  "workspaceLayout": {
+    "appsDir": "apps",
+    "libsDir": "packages"
+  },
+  "generators": {
+    "@nx/express:application": {
+      "linter": "none",
+      "unitTestRunner": "jest",
+      "skipFormat": true
+    },
+    "@nx/node:library": {
+      "linter": "none",
+      "unitTestRunner": "none",
+      "skipFormat": true
+    }
+  },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
